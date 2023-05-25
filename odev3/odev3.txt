@@ -6,3 +6,12 @@ Analitik işlevler, bir grup satıra dayalı olarak toplam değer üzerinde bir 
 
 
 Analitik SQL Sorgusu Örneği?
+
+SELECT 
+	Employee_name, 
+	Wage
+	,RANK() OVER(ORDER BY Wage) AS Employee_Rank
+	,8 AS TotalEmployee
+	,RANK() OVER(ORDER BY Wage)/8.0000 AS WageDistribution_Manual
+	,CUME_DIST() OVER(ORDER BY Wage) AS WageDistribution
+FROM [dbo].[Employee]
