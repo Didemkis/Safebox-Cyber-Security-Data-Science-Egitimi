@@ -1,0 +1,8 @@
+Analitik SQL Nedir?
+Büyük veri setlerini analiz etmek ,karmaşık veri analizi gerçekleştirmek için elde etmek için kullanılan SQL sorgularıdır.
+Bu tür sorgular, iş zekası, veri analitiği ve raporlama gibi alanlarda yaygın olarak kullanılır. 
+Bu işlevler, hesaplamaları birden çok satır üzerinde gerçekleştirir ve birden çok satırı da döndürür.
+Analitik işlevler, bir grup satıra dayalı olarak toplam değer üzerinde bir hesaplama gerçekleştirir.
+
+
+Analitik SQL Sorgusu Örneği?
