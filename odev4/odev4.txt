@@ -1,0 +1,51 @@
+Stored Procedure ve Trigger  neden kullanılır?
+
+Stored Procedure, programlamada kullanılan ifadelere göre kod yazmamızı sağlar.
+Bu sayede her seferinde aynı işlemleri yapmadan zamandan tasarruf edilir.
+Tekrar kullanılabilirliği sağlamak istediğimizde kullanılır.
+Ağ trafiğini azaltmak istediğimizde kullanılır.
+Trigger'lar ,store procedure’ler ile neredeyse aynı işlevlere sahiptir.
+Bir tabloda belirli olaylar meydana geldiğinde veya gelmeden önce otomatik olarak çalışan özel bir store procedure türüdür. 
+Veri bütünlüğünu sağlamak için kullanılır. 
+Tablolarda veya veritabanında mevcut olmayan ek bilgiyi türetmek için kullanılır. 
+
+Olumlu ve olumsuz etkileri nelerdir? 
+
+Trigger için,
+Kullanıcı tarafından direk olarak çağrılamaz kullanılamazlar.
+Trigger’ı zamanlanmış görevler için kullanamayız.
+Trigger’a parametre gönderilemez.
+Trigger’lar geriye bir değer döndürmez.
+
+Stored Procedure için,
+Stored Procedure veri tabanına saklanmış, depolanmış deyimlerdir.
+Bu yüzden tekrar tekrar kullanılabilmektedir.
+Exec yada execute ile çağrılarak kullanılabilirler.
+Bir stored procedure diğer stored procedure içerinde çalıştırılabilirler.
+Stored Procedure’ı zamanlanmış görevler için kullanabiliriz.
+Stored Procedure’a parametre gönderebiliriz.
+Stored Procedur’da 0 ya da herhangi bir n değeri geriye döndürebilir.
+
+ÖRNEK PROJE
+
+CREATE PROCEDURE SPI_URUN_SATIS (  URUN_NO INTEGER,  SATIS_MIKTARI INTEGER)  AS   
+DECLARE VARIABLE DLR_KAYIT_SAYISI integer;
+begin
+  select count(*)
+  from URUN_STOK where URUN_NO = @URUN_NO
+  INTO DLR_KAYIT_SAYISI;
+  if (DLR_KAYIT_SAYISI=0) then
+    insert into URUN_STOK(URUN_NO,STOK_MIKTARI) values(@URUN_NO,0);
+  update URUN_STOK set
+    STOK_MIKTARI = STOK_MIKTARI-:SATIS_MIKTARI where
+    URUN_NO = @URUN_NO;
+end
+
+CREATE PROCEDURE SPD_URUN_SATIS (  URUN_NO INTEGER,  SATIS_MIKTARI INTEGER)  AS   
+begin
+  update URUN_STOK set
+    STOK_MIKTARI = STOK_MIKTARI+:SATIS_MIKTARI where
+    URUN_NO = @URUN_NO;
+  delete from URUN_STOK
+    where URUN_NO=@URUN_NO and STOK_MIKTARI=0;
+end
